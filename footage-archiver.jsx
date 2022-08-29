@@ -165,7 +165,7 @@ for (var i = 0; i < selectionItems.length; i++)
         }
 function sendForRender(array,prefix){//отправка на рендер
     if(thisProject.renderQueue.numItems>0)//обнуляем очередь рендера
-    {alert(thisProject.renderQueue.numItems);
+    {
         for (var i = thisProject.renderQueue.numItems; i >= 1; i--)
         {
             thisProject.renderQueue.item(i).remove();
