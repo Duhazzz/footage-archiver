@@ -39,13 +39,14 @@ if(unusedFootages[0]!=null){
 getRenderFolder();
 if(userRenderFilesPath!=null){
 if(findItem(nameConvertFolder)==false){
-    for (var i = 0; i < workFootages.length; i++)
-    {workFootages[i].name=removeExtension(workFootages[i].name)}
+    nameConverter(workFootages);
     precompWithReplace(workFootages);
     sendForRender(compsForRender,prefixRGB);
     alert("Все футажи поставлены в очередь рендера, отрендерите их. После запустите скрипт снова", "Первый этап пройден");
 }else{
 //2 сравнить имена RGB композиций с отрендеренныими именами файлов в папке
+//alert(getNameFootages(workFootages));
+nameConverter(workFootages);
 compareLists(workFootages,prefixRGB,1);
 //3 отправить альфа каналы в очередь на рендер
 if(checkRenderRGB==true){
@@ -56,15 +57,22 @@ compareLists(arrayAlphaFootages,prefixAlpha,0);
 }else{alert(messageNoWay)}
 app.endUndoGroup();
 ////////////////////////////////////////////////
+function nameConverter(array){
+    for (var i = 0; i < array.length; i++)
+    {array[i].name=removeExtension(array[i].name)}
+}
 function compareLists(array,prefix,indecator){//сравниваем массив футажей с просчитанными файлами
     
     userRenderFiles=userRenderFilesPath.getFiles();
     userRenderFiles=File.decode(userRenderFiles).toString();
+    
     for (var i = 0; i < array.length; i++)
     {
         if(userRenderFiles.indexOf(prefix+removeExtension(array[i].name))==-1)
         {
             additionalRender.push(getCompFromFootage(array[i]));
+            //alert(prefix+removeExtension(array[i].name));
+            
         }
     }
     getRenderList(array,prefix,indecator);
@@ -115,6 +123,7 @@ function getInfoAboutFootages(){//блок определение футажей
         }
     }
     workFootages=arrayRgbFootages.concat(arrayAlphaFootages);
+    nameConverter(workFootages);
 }
 function findItem(nameItem){
     var boolvalue=false;
@@ -201,7 +210,8 @@ function getCompFromFootage(footage){
     return footage.usedIn[0];
 }
 function removeExtension(filename) {//удалить расширение файла сохраненное в имени композиции
-    return filename.substring(0, filename.lastIndexOf('.')) || filename;
+    //return filename.substring(0, filename.lastIndexOf('.')) || filename;
+    return filename.replace('.','_') || filename;
 }
 function getAlphaComps(){
     for (var i = 0; i < arrayAlphaFootages.length; i++)
