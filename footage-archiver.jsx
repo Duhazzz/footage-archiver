@@ -107,6 +107,8 @@ function getInfoAboutFootages(){//блок определение футажей
             if(thisProject.items[i].mainSource.isStill){}
                 else{//если файл не картинка
                     if(thisProject.items[i].hasVideo){
+                    if(thisProject.items[i].footageMissing!=true){//если файл не потерян
+
                     if(thisProject.items[i].usedIn!=""){//проверка слоя на присудствие в другой композиции
                     if(thisProject.items[i].mainSource.hasAlpha){
                         arrayAlphaFootages.push(thisProject.items[i]);//получаем массив футажей с альфой
@@ -119,7 +121,7 @@ function getInfoAboutFootages(){//блок определение футажей
                 }else{//получаем массивы которые не используются в других композициях
                     unusedFootages.push(thisProject.items[i]);
                 }
-            }}
+            }}}
         }
     }
     workFootages=arrayRgbFootages.concat(arrayAlphaFootages);
