@@ -248,16 +248,17 @@ function importUserFootages(){
                 importFootageAlpha.push(newFootage);
             }
         }
-        for (var j = 0; j < workFootages.length; j++)
+        for (var j = 0; j < workFootages.length; j++)//удаляем из проекта старые футажи
         {
             compsForRender.push(getCompFromFootage(workFootages[j]));
             workFootages[j].remove();
         }
+        //alert(getNameFootages(compsForRender));
         for (var i = 0; i < compsForRender.length; i++)
         {
             for (var j = 0; j < importFootageRGB.length; j++)
             {
-                if(importFootageRGB[j].name.indexOf(removeExtension(compsForRender[i].name))!=-1)
+                if(importFootageRGB[j].name.indexOf(("rgb_"+compsForRender[i].name)+".")!=-1)//возможно тут проблема
                 {
                     compsForRender[i].layers.add(importFootageRGB[j]);
                     compsForRender[i].layer(importFootageRGB[j].name.toString()).trackMatteType=TrackMatteType.LUMA;
@@ -265,7 +266,7 @@ function importUserFootages(){
             }
             for (var j = 0; j < importFootageAlpha.length; j++)
             {
-                if(importFootageAlpha[j].name.indexOf(removeExtension(compsForRender[i].name))!=-1)
+                if(importFootageAlpha[j].name.indexOf(("alpha_"+compsForRender[i].name)+".")!=-1)
                 {
                     compsForRender[i].layers.add(importFootageAlpha[j]);
                     compsForRender[i].layer(importFootageAlpha[j].name.toString()).enabled=false;
